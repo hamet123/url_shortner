@@ -57,4 +57,8 @@ Route::get('/{uniqueLink}', function ($uniqueLink) {
     }
 });
 
-
+Route::get('/delete-url/{id}', function ($id){
+    $url = Url::find($id);
+    $url->delete();
+    return redirect()->back();
+});

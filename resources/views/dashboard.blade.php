@@ -51,6 +51,7 @@
                                             <th scope="col">Shorten URL</th>
                                             <th scope="col">Actual URL</th>
                                             <th scope="col">Visit Count</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -63,10 +64,11 @@
                                                 <td> <a target="_blank" class="text-danger" href="{{ $url->uniqueLink}}">{{ $url->shortUrl }}</a> </td>
                                                 <td>{{ $url->url }}</td>
                                                 <td>{{ $url->visitCount }}</td>
+                                                <td><a href="/delete-url/{{ $url->id }}" class="btn btn-danger">Delete</a></td>
                                         </tr>
                                             @empty
                                                 <tr>
-                                                    <td colspan="3" class="text-center">No URL found</td>
+                                                    <td colspan="5" class="text-center">No URL found</td>
                                                 </tr>
                                             @endforelse
                                         </tr>
