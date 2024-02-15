@@ -36,6 +36,11 @@
                                     <button class="btn btn-danger">Shorten</button>
                                 </div>
                             </div>
+                            <div class="row">
+                                @error('url')
+                                <span class="text-danger my-2">{{ $message }}</span>
+                                @enderror
+                            </div>
                         </form>
                         <hr class="my-5">
                         <div class="row mt-5">
