@@ -34,7 +34,7 @@ Route::post('/', function (Request $request) {
         return redirect()->back()->with('success', 'Url shortened successfully');
     } else {
         return redirect()->back()->with('error', 'Something went wrong');
-    }
+    } 
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
