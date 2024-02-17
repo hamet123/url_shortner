@@ -25,16 +25,18 @@ Route::post('/', function (Request $request) {
 
     $uniLink = strtolower(Str::random(6));
     $currentHost = $_SERVER['HTTP_HOST'];
-    if (Url::create([
-        'uniqueLink' => $uniLink, 
-        'shortUrl' => $currentHost.'/' . $uniLink, 
-        'url' => $request->url, 
-        'user_id' =>Auth::user()->id,   
-        ])) {
+    if (
+        Url::create([
+            'uniqueLink' => $uniLink,
+            'shortUrl' => $currentHost . '/' . $uniLink,
+            'url' => $request->url,
+            'user_id' => Auth::user()->id,
+        ])
+    ) {
         return redirect()->back()->with('success', 'Url shortened successfully');
     } else {
         return redirect()->back()->with('error', 'Something went wrong');
-    } 
+    }
 });
 
 Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
@@ -46,23 +48,21 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
 Route::get('/{uniqueLink}', function ($uniqueLink) {
     $url = Url::where('uniqueLink', $uniqueLink)->first();
-    if($url){
+    if ($url) {
         $lastVisitCount = $url->visitCount;
-    $newVisitCount = $lastVisitCount+1;
-    
-    if ($url['url'] !== null) {
-        $url->update(['visitCount'=> $newVisitCount]);
-        return redirect($url['url']);
+        $newVisitCount = $lastVisitCount + 1;
+        if ($url['url'] !== null) {
+            $url->update(['visitCount' => $newVisitCount]);
+            return redirect($url['url']);
+        } else {
+            abort(404);
+        }
     } else {
         abort(404);
     }
-    } else {
-        abort(404);
-    }
-    
 });
 
-Route::get('/delete-url/{id}', function ($id){
+Route::get('/delete-url/{id}', function ($id) {
     $url = Url::find($id);
     $url->delete();
     return redirect()->back();
