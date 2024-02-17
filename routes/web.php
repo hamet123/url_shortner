@@ -46,7 +46,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
 
 Route::get('/{uniqueLink}', function ($uniqueLink) {
     $url = Url::where('uniqueLink', $uniqueLink)->first();
-    $lastVisitCount = $url->visitCount;
+    if($url){
+        $lastVisitCount = $url->visitCount;
     $newVisitCount = $lastVisitCount+1;
     
     if ($url['url'] !== null) {
@@ -55,6 +56,10 @@ Route::get('/{uniqueLink}', function ($uniqueLink) {
     } else {
         abort(404);
     }
+    } else {
+        abort(404);
+    }
+    
 });
 
 Route::get('/delete-url/{id}', function ($id){
